@@ -591,6 +591,10 @@ const styles = StyleSheet.create({
          */
         width: '100%',
         left: 0,
+        /* `alignSelf: 'stretch'` forces the root to claim the full container
+         * width on iOS, where a flex child can otherwise fall short of the
+         * screen edge inside a native-stack screen container. */
+        alignSelf: 'stretch',
     },
     hero: {
         /*
@@ -601,10 +605,12 @@ const styles = StyleSheet.create({
          * Dynamic Island. Nothing may be added above it in the tree — a sibling
          * spacer, a parent `SafeAreaView`, or a top margin on `root` would each
          * leave the canvas visible as the white band this screen used to show.
+         *
+         * `alignSelf: 'stretch'` combined with `width: '100%'` forces the
+         * LinearGradient to span the full container width on iOS, where
+         * `width: '100%'` alone can fall short of the screen edge inside a
+         * native-stack screen container.
          */
-        // Stretch rather than measure: the gradient must span the full root width
-        // with no horizontal margin of its own. The gutter lives in
-        // `paddingHorizontal`, which paints *inside* the fill.
         alignSelf: 'stretch',
         width: '100%',
         marginHorizontal: 0,
