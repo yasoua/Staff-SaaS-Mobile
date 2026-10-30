@@ -84,6 +84,8 @@ export type AppHeaderProps = {
     clip?: boolean;
     /** Reports the fully-resolved chrome height, including the inset. */
     onHeightChange?: (height: number) => void;
+    /** Removes horizontal padding so the header spans the full device width. */
+    fullWidth?: boolean;
 };
 
 export function AppHeader({
@@ -94,6 +96,7 @@ export function AppHeader({
     flat = false,
     separator = true,
     clip = false,
+    fullWidth = false,
     onHeightChange,
 }: AppHeaderProps) {
     const theme = useTheme();
@@ -118,7 +121,7 @@ export function AppHeader({
                     // inset, so none is added here.
                     paddingTop: flat ? spacing.sm : insets.top + spacing.sm,
                     paddingBottom: spacing.sm,
-                    paddingHorizontal: theme.screenGutter,
+                    paddingHorizontal: fullWidth ? 0 : theme.screenGutter,
                     backgroundColor: theme.colors.surface,
                     borderBottomWidth: separator ? theme.sizing.borderWidths.hairline : 0,
                     // In dark mode the hairline is the primary separator (shadows

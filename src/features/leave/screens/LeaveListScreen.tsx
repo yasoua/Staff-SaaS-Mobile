@@ -151,7 +151,7 @@ export function LeaveListScreen({ navigation }: Props): React.JSX.Element {
         navigation.navigate('CreateLeaveRequest');
     }, [navigation]);
 
-    const header = <AppHeader title="Leave" subtitle="Your leave requests." />;
+    const header = <AppHeader title="Leave" subtitle="Your leave requests." fullWidth />;
 
     if (query.isPending && page === 1 && allItems.length === 0) {
         return (

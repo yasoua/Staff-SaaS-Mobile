@@ -321,39 +321,29 @@ function HeroStatusBar(): React.JSX.Element | null {
 }
 
 /**
- * The fixed gradient hero.
+ * The fixed blue header bar.
  *
- * Owns the **top** inset: the fill runs behind the status bar/notch rather than
- * starting below it, which is what makes it read as a hero instead of a coloured
- * box. A screen that mounts it must not also apply `insets.top`.
+ * A solid blue header that spans the full width of the device, owns the top
+ * safe-area inset, and carries only the notification bell as a floating action.
+ * The date, greeting, and subline have been moved out of the header into the
+ * body content area.
  *
  * ## Geometry
  *
  * ```
  * ┌─────────────────────────────┐  ← physical top edge of the display
- * │  (status bar / notch / DI)  │     gradient paints behind it
- * │  DATE                    (bell)
- * │  Good morning, Alex
- * │  Here is your day at a glance
+ * │  (status bar / notch / DI)  │     blue fill paints behind it
+ * │                    (bell)    │     notification bell, floating right
  * ╰─────────────────────────────╯  ← only the *bottom* corners are rounded
  * ```
  *
  * Two rules make this work on iOS and must not be relaxed:
  *
  * 1. **No top radius.** `borderTopLeftRadius`/`borderTopRightRadius` are never set
- *    here. Before they were introduced indirectly by the body's rounded sheet,
- *    the pairing of two curves left a white sliver at the very top of the screen
- *    on notched devices, which is the "floating card" artefact. The hero is a
- *    full-bleed surface; only its lower edge is a curve.
- * 2. **`insets.top` is padding, not margin.** The gradient's own box starts at
- *    y=0 and the inset is added to its top padding, so date and bell clear the
- *    Dynamic Island while the fill still spans the whole bar. Using a margin (or
- *    a sibling spacer) would leave the canvas visible above the gradient.
- *
- * Inside a bottom-tab stack the screen area already starts at the display edge,
- * so `insets.top` is the *real* status-bar height (~59pt on a Dynamic Island
- * iPhone, 24pt on Android). On devices without a notch it is 0 and the 20pt
- * content offset below is all the header needs.
+ *    here. The header is a full-bleed surface; only its lower edge is a curve.
+ * 2. **`insets.top` is padding, not margin.** The fill's own box starts at y=0
+ *    and the inset is added to its top padding, so the bell clears the Dynamic
+ *    Island while the fill still spans the whole bar.
  */
 function HomeHero({
     dateLine,
@@ -626,19 +616,20 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 28,
         // No `borderTop*Radius` — see above.
     },
+    heroContent: {
+        width: '100%',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        paddingRight: 20,
+    },
     heroTopRow: {
         width: '100%',
-        // The bell must never be pushed outside the hero. The row is a single
-        // line, so the date yields space (`heroDate` flexes) rather than the
-        // trailing control being clipped or wrapped off the right edge.
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
     heroDate: {
-        // Absorbs the leftover width and may shrink below its content width so a
-        // long weekday+date string truncates with `numberOfLines={1}` instead of
-        // displacing the bell past the right gutter.
         flex: 1,
         minWidth: 0,
         fontSize: 11,

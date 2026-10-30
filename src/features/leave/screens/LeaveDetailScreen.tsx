@@ -55,7 +55,7 @@ export function LeaveDetailScreen({ route, navigation }: Props): React.JSX.Eleme
     if (query.isPending) {
         return (
             <ScreenContainer hasHeader>
-                <AppHeader title="Leave request" onBack={() => navigation.goBack()} />
+                <AppHeader title="Leave request" onBack={() => navigation.goBack()} fullWidth />
                 <SkeletonDetail />
             </ScreenContainer>
         );
@@ -64,7 +64,7 @@ export function LeaveDetailScreen({ route, navigation }: Props): React.JSX.Eleme
     if (query.isError) {
         return (
             <ScreenContainer hasHeader>
-                <AppHeader title="Leave request" onBack={() => navigation.goBack()} />
+                <AppHeader title="Leave request" onBack={() => navigation.goBack()} fullWidth />
                 <ErrorView error={query.error} onRetry={() => void query.refetch()} />
             </ScreenContainer>
         );
