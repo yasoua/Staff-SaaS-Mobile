@@ -85,3 +85,9 @@ ios/StaffSaaSMobile/GoogleService-Info.plist
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+/soft-ui-react-native-main
+
+
+
+StaffSaaSMobile.zip
